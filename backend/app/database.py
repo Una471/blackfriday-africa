@@ -4,17 +4,22 @@ from sqlalchemy.orm import DeclarativeBase
 from pathlib import Path
 import os
 
-# Render-safe writable directory
-RUNTIME_DIR = Path("/opt/render/project/src/.data")
-RUNTIME_DIR.mkdir(exist_ok=True)  # Ensure folder exists
+# Detect if running on Render
+IS_RENDER = os.environ.get("RENDER") == "true"
 
-DB_PATH = RUNTIME_DIR / "database.db"
+if IS_RENDER:
+    # Render uses this directory for writable storage
+    DB_DIR = Path("/opt/render/project/src/.data")
+    DB_DIR.mkdir(parents=True, exist_ok=True)
+    DB_PATH = DB_DIR / "database.db"
+else:
+    # Local environment (Windows/macOS/Linux)
+    DB_PATH = Path(__file__).resolve().parent.parent / "database.db"
 
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False}
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
