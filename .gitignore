@@ -1,0 +1,46 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+python/
+scrapers/__pycache__/
+
+# Node
+node_modules/
+
+# VSCode
+.vscode/
+
+# DB
+backend/database.db
+
+# IDE
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Misc
+.DS_Store
+dist
+dist-ssr
+*.local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+__pycache__/ 
+*.pyc 
+database.db 
+node_modules/ 
+dist/ 
+.env 

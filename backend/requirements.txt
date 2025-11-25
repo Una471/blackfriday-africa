@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sqlalchemy
+python-dotenv
+alembic
+aiosqlite
+requests
+beautifulsoup4
+lxml
+tqdm
+python-dateutil
+playwright
