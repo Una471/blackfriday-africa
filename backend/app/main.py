@@ -21,9 +21,15 @@ app = FastAPI(
 )
 
 # Set up CORS
+origins = [
+    "http://localhost",
+    "http://localhost:5173",
+    "https://blackfriday-africa.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
