@@ -1,29 +1,25 @@
 from fastapi import APIRouter
-import csv
-from pathlib import Path
+from typing import List, Optional
 
-router = APIRouter(prefix="/api", tags=["Products"])
+from . import crud
 
-CSV_PATH = Path(__file__).resolve().parents[2] / "csv_upload" / "real_products.csv"
+router = APIRouter()
 
-
-def read_csv():
-    products = []
-    with open(CSV_PATH, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            row["price"] = float(row["price"])  # convert price to number
-            products.append(row)
+@router.get("/products", tags=["Products"])
+def read_products(category: Optional[str] = None, skip: int = 0, limit: int = 100):
+    if category:
+        products = crud.get_products_by_category(category=category, skip=skip, limit=limit)
+    else:
+        products = crud.get_products(skip=skip, limit=limit)
     return products
 
 
-@router.get("/products")
-def get_all_products():
-    return read_csv()
+@router.get("/retailers", response_model=List[str], tags=["Retailers"])
+def read_retailers():
+    return crud.get_retailers()
 
 
-@router.get("/products/category/{category}")
-def get_products_by_category(category: str):
-    products = read_csv()
-    filtered = [p for p in products if p["category"].lower() == category.lower()]
-    return filtered
+@router.get("/categories", response_model=List[str], tags=["Categories"])
+def read_categories():
+    return crud.get_categories()
+

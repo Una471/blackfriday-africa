@@ -1,20 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# Local app imports
 from .routes import router
 
 app = FastAPI(
-    title="BlackFriday CSV API",
-    description="API serving products directly from CSV instead of a database.",
-    version="1.0.0"
+    title="BlackFriday.Africa API",
+    description="API for BlackFriday.Africa MVP",
+    version="0.1.0",
 )
 
-# --- CORS ---
+# CORS Middleware
 origins = [
     "http://localhost",
     "http://localhost:5173",
     "https://blackfriday-africa.vercel.app",
 ]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -23,9 +24,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def home():
-    return {"message": "BlackFriday CSV API Live"}
+# Include API routes
+app.include_router(router, prefix="/api")
 
-# Use router (which you will modify next)
-app.include_router(router)
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the BlackFriday.Africa API"}

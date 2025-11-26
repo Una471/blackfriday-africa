@@ -10,3 +10,4 @@ lxml
 tqdm
 python-dateutil
 playwright
+pandas
