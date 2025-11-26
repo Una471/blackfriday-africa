@@ -1,17 +1,16 @@
 import pandas as pd
 from typing import List
+import os
 
-# Define the path to the CSV file, assuming the script is run from the project root
-CSV_PATH = 'csv_upload/real_products.csv'
+# Build a reliable, absolute path to the CSV file.
+# This works regardless of the script's working directory.
+# It navigates from this file (crud.py) up to the project root and then to the CSV.
+CSV_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'csv_upload', 'real_products.csv')
+
 
 def get_products_df():
     """Reads the CSV file and returns a pandas DataFrame."""
-    try:
-        # This path works when the app is run from the 'backend' directory
-        return pd.read_csv(f'../{CSV_PATH}')
-    except FileNotFoundError:
-        # This path works when tests or scripts are run from the project root
-        return pd.read_csv(CSV_PATH)
+    return pd.read_csv(CSV_PATH)
 
 def get_products(skip: int = 0, limit: int = 100):
     df = get_products_df()
